@@ -1,7 +1,7 @@
 {
     "name": "@grammyjs/hydrate",
     "description": "Hydration plugin for grammY",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "author": "KnorpelSenf",
     "license": "MIT",
     "engines": {
