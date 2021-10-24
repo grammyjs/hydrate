@@ -13,25 +13,25 @@ The purpose of this plugin is best illustrated by an example.
 **WITHOUT** this plugin:
 
 ```ts
-bot.on(':photo', async ctx => {
-    const statusMessage = await ctx.reply('Processing your image, please wait')
-    await doWork() // some long image processing
-    await ctx.api.deleteMessage(statusMessage.message_id)
-})
-bot.on('callback_query', async ctx => {
-    await ctx.answerCallbackQuery()
-})
+bot.on(":photo", async (ctx) => {
+    const statusMessage = await ctx.reply("Processing your image, please wait");
+    await doWork(); // some long image processing
+    await ctx.api.deleteMessage(statusMessage.message_id);
+});
+bot.on("callback_query", async (ctx) => {
+    await ctx.answerCallbackQuery();
+});
 ```
 
 **WITH** this plugin:
 
 ```ts
-bot.on(':photo', async ctx => {
-    const statusMessage = await ctx.reply('Processing your image, please wait')
-    await doWork() // some long image processing
-    await statusMessage.delete() // so easy!
-})
-bot.on('callback_query', async ctx => {
-    await ctx.callbackQuery.answer() // this works now, too
-})
+bot.on(":photo", async (ctx) => {
+    const statusMessage = await ctx.reply("Processing your image, please wait");
+    await doWork(); // some long image processing
+    await statusMessage.delete(); // so easy!
+});
+bot.on("callback_query", async (ctx) => {
+    await ctx.callbackQuery.answer(); // this works now, too
+});
 ```

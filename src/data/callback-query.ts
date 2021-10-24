@@ -1,9 +1,9 @@
-import { CallbackQuery, RawApi } from '../deps.deno.ts'
-import { Other, Ret } from '../plugin.ts'
-import { installMessageMethods, MessageX } from './message.ts'
+import { CallbackQuery, RawApi } from "../deps.deno.ts";
+import { Other, Ret } from "../plugin.ts";
+import { installMessageMethods, MessageX } from "./message.ts";
 
 export interface CallbackQueryX {
-    message?: MessageX
+    message?: MessageX;
 
     /**
      * Callback query-aware alias for `api.answerCallbackQuery`. Use this method to send answers to callback queries sent from inline keyboards. The answer will be displayed to the user as a notification at the top of the chat screen or as an alert. On success, True is returned.
@@ -16,24 +16,25 @@ export interface CallbackQueryX {
      * **Official reference:** https://core.telegram.org/bots/api#answercallbackquery
      */
     answer(
-        other?: Other<'answerCallbackQuery', 'callback_query_id'>,
-        signal?: AbortSignal
-    ): Ret<'answerCallbackQuery'>
+        other?: Other<"answerCallbackQuery", "callback_query_id">,
+        signal?: AbortSignal,
+    ): Ret<"answerCallbackQuery">;
 }
 
 export function installCallbackQueryMethods(
     api: RawApi,
-    callbackQuery: CallbackQuery
+    callbackQuery: CallbackQuery,
 ) {
-    if (callbackQuery.message !== undefined)
-        installMessageMethods(api, callbackQuery.message)
+    if (callbackQuery.message !== undefined) {
+        installMessageMethods(api, callbackQuery.message);
+    }
 
-    const methods: Omit<CallbackQueryX, 'message'> = {
+    const methods: Omit<CallbackQueryX, "message"> = {
         answer: (other, signal) =>
             api.answerCallbackQuery(
                 { callback_query_id: callbackQuery.id, ...other },
-                signal
+                signal,
             ),
-    }
-    Object.assign(callbackQuery, methods)
+    };
+    Object.assign(callbackQuery, methods);
 }

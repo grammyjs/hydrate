@@ -16,7 +16,9 @@
         "url": "https://github.com/grammyjs/hydrate/issues"
     },
     "scripts": {
-        "build": "deno2node tsconfig.json"
+        "build": "deno2node tsconfig.json",
+        "format": "deno fmt --config deno.json",
+        "lint": "deno lint --config deno.json"
     },
     "dependencies": {
         "abort-controller": "^3.0.0"

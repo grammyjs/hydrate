@@ -4,12 +4,12 @@ import {
     InputFileProxy,
     Message,
     RawApi,
-} from '../deps.deno.ts'
-import { Other as O, Ret } from '../plugin.ts'
+} from "../deps.deno.ts";
+import { Other as O, Ret } from "../plugin.ts";
 type Other<M extends keyof RawApi, K extends string = never> = O<
     M,
-    K | 'chat_id' | 'message_id'
->
+    K | "chat_id" | "message_id"
+>;
 
 export interface MessageX {
     /**
@@ -23,9 +23,9 @@ export interface MessageX {
      */
     forward(
         chat_id: number | string,
-        other?: Other<'forwardMessage', 'from_chat_id'>,
-        signal?: AbortSignal
-    ): Ret<'forwardMessage'>
+        other?: Other<"forwardMessage", "from_chat_id">,
+        signal?: AbortSignal,
+    ): Ret<"forwardMessage">;
 
     /**
      * Message-aware alias for `api.copyMessage`. Use this method to copy messages of any kind. Service messages and invoice messages can't be copied. The method is analogous to the method forwardMessage, but the copied message doesn't have a link to the original message. Returns the MessageId of the sent message on success.
@@ -38,9 +38,9 @@ export interface MessageX {
      */
     copy(
         chat_id: number | string,
-        other?: Other<'copyMessage', 'from_chat_id'>,
-        signal?: AbortSignal
-    ): Ret<'copyMessage'>
+        other?: Other<"copyMessage", "from_chat_id">,
+        signal?: AbortSignal,
+    ): Ret<"copyMessage">;
 
     /**
      * Message-aware alias for `api.deleteMessage`. Use this method to delete a message, including service messages, with the following limitations:
@@ -57,7 +57,7 @@ export interface MessageX {
      *
      * **Official reference:** https://core.telegram.org/bots/api#deletemessage
      */
-    delete(signal?: AbortSignal): Ret<'deleteMessage'>
+    delete(signal?: AbortSignal): Ret<"deleteMessage">;
 
     /**
      * Message-aware alias for `api.editMessageReplyMarkup`. Use this method to edit only the reply markup of messages. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned.
@@ -69,8 +69,8 @@ export interface MessageX {
      */
     editReplyMarkup(
         reply_markup?: InlineKeyboardMarkup,
-        signal?: AbortSignal
-    ): Ret<'editMessageReplyMarkup'>
+        signal?: AbortSignal,
+    ): Ret<"editMessageReplyMarkup">;
 
     /**
      * Message-aware alias for `api.editMessageText`. Use this method to edit text and game messages. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned.
@@ -83,9 +83,9 @@ export interface MessageX {
      */
     editText(
         text: string,
-        other?: Other<'editMessageText', 'text'>,
-        signal?: AbortSignal
-    ): Ret<'editMessageText'>
+        other?: Other<"editMessageText", "text">,
+        signal?: AbortSignal,
+    ): Ret<"editMessageText">;
 
     /**
      * Message-aware alias for `api.editMessageLiveLocation`. Use this method to edit live location messages. A location can be edited until its live_period expires or editing is explicitly disabled by a call to stopMessageLiveLocation. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned.
@@ -101,11 +101,11 @@ export interface MessageX {
         latitude: number,
         longitude: number,
         other?: Other<
-            'editMessageLiveLocation',
-            'inline_message_id' | 'latitude' | 'longitude'
+            "editMessageLiveLocation",
+            "inline_message_id" | "latitude" | "longitude"
         >,
-        signal?: AbortSignal
-    ): Ret<'editMessageLiveLocation'>
+        signal?: AbortSignal,
+    ): Ret<"editMessageLiveLocation">;
 
     /**
      * Message-aware alias for `api.stopMessageLiveLocation`. Use this method to stop updating a live location message before live_period expires. On success, if the message is not an inline message, the edited Message is returned, otherwise True is returned.
@@ -116,9 +116,9 @@ export interface MessageX {
      * **Official reference:** https://core.telegram.org/bots/api#stopmessagelivelocation
      */
     stopLiveLocation(
-        other?: Other<'stopMessageLiveLocation', 'inline_message_id'>,
-        signal?: AbortSignal
-    ): Ret<'stopMessageLiveLocation'>
+        other?: Other<"stopMessageLiveLocation", "inline_message_id">,
+        signal?: AbortSignal,
+    ): Ret<"stopMessageLiveLocation">;
 
     /**
      * Message-aware alias for `api.editMessageCaption`. Use this method to edit captions of messages. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned.
@@ -131,9 +131,9 @@ export interface MessageX {
      */
     editCaption(
         caption?: string,
-        other?: Other<'editMessageCaption', 'inline_message_id' | 'caption'>,
-        signal?: AbortSignal
-    ): Ret<'editMessageCaption'>
+        other?: Other<"editMessageCaption", "inline_message_id" | "caption">,
+        signal?: AbortSignal,
+    ): Ret<"editMessageCaption">;
 
     /**
      * Message-aware alias for `api.editMessageMedia`. Use this method to edit animation, audio, document, photo, or video messages. If a message is part of a message album, then it can be edited only to an audio for audio albums, only to a document for document albums and to a photo or a video otherwise. When an inline message is edited, a new file can't be uploaded; use a previously uploaded file via its file_id or specify a URL. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned.
@@ -145,10 +145,10 @@ export interface MessageX {
      * **Official reference:** https://core.telegram.org/bots/api#editmessagemedia
      */
     editMedia(
-        media: InputFileProxy<InputFile>['InputMedia'],
-        other?: Other<'editMessageMedia', 'inline_message_id' | 'media'>,
-        signal?: AbortSignal
-    ): Ret<'editMessageMedia'>
+        media: InputFileProxy<InputFile>["InputMedia"],
+        other?: Other<"editMessageMedia", "inline_message_id" | "media">,
+        signal?: AbortSignal,
+    ): Ret<"editMessageMedia">;
 }
 
 export function installMessageMethods(api: RawApi, message: Message) {
@@ -161,7 +161,7 @@ export function installMessageMethods(api: RawApi, message: Message) {
                     message_id: message.message_id,
                     ...other,
                 },
-                signal
+                signal,
             ),
         copy: (chat_id, other, signal) =>
             api.copyMessage(
@@ -171,15 +171,15 @@ export function installMessageMethods(api: RawApi, message: Message) {
                     message_id: message.message_id,
                     ...other,
                 },
-                signal
+                signal,
             ),
-        delete: signal =>
+        delete: (signal) =>
             api.deleteMessage(
                 {
                     chat_id: message.chat.id,
                     message_id: message.message_id,
                 },
-                signal
+                signal,
             ),
         editReplyMarkup: (reply_markup, signal) =>
             api.editMessageReplyMarkup(
@@ -188,7 +188,7 @@ export function installMessageMethods(api: RawApi, message: Message) {
                     message_id: message.message_id,
                     reply_markup,
                 },
-                signal
+                signal,
             ),
         editText: (text, other, signal) =>
             api.editMessageText(
@@ -198,7 +198,7 @@ export function installMessageMethods(api: RawApi, message: Message) {
                     text,
                     ...other,
                 },
-                signal
+                signal,
             ),
         editLiveLocation: (latitude, longitude, other, signal) =>
             api.editMessageLiveLocation(
@@ -209,7 +209,7 @@ export function installMessageMethods(api: RawApi, message: Message) {
                     longitude,
                     ...other,
                 },
-                signal
+                signal,
             ),
         stopLiveLocation: (other, signal) =>
             api.stopMessageLiveLocation(
@@ -218,7 +218,7 @@ export function installMessageMethods(api: RawApi, message: Message) {
                     message_id: message.message_id,
                     ...other,
                 },
-                signal
+                signal,
             ),
         editCaption: (caption, other, signal) =>
             api.editMessageCaption(
@@ -228,7 +228,7 @@ export function installMessageMethods(api: RawApi, message: Message) {
                     caption,
                     ...other,
                 },
-                signal
+                signal,
             ),
         editMedia: (media, other, signal) =>
             api.editMessageMedia(
@@ -238,8 +238,8 @@ export function installMessageMethods(api: RawApi, message: Message) {
                     media,
                     ...other,
                 },
-                signal
+                signal,
             ),
-    }
-    Object.assign(message, methods)
+    };
+    Object.assign(message, methods);
 }

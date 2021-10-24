@@ -1,5 +1,5 @@
-import { ShippingQuery, RawApi } from '../deps.deno.ts'
-import { Other, Ret } from '../plugin.ts'
+import { RawApi, ShippingQuery } from "../deps.deno.ts";
+import { Other, Ret } from "../plugin.ts";
 
 export interface ShippingQueryX {
     /**
@@ -13,21 +13,21 @@ export interface ShippingQueryX {
      */
     answer(
         ok: boolean,
-        other?: Other<'answerShippingQuery', 'shipping_query_id' | 'ok'>,
-        signal?: AbortSignal
-    ): Ret<'answerShippingQuery'>
+        other?: Other<"answerShippingQuery", "shipping_query_id" | "ok">,
+        signal?: AbortSignal,
+    ): Ret<"answerShippingQuery">;
 }
 
 export function installShippingQueryMethods(
     api: RawApi,
-    shippingQuery: ShippingQuery
+    shippingQuery: ShippingQuery,
 ) {
-    const methods: Omit<ShippingQueryX, 'message'> = {
+    const methods: Omit<ShippingQueryX, "message"> = {
         answer: (ok, other, signal) =>
             api.answerShippingQuery(
                 { shipping_query_id: shippingQuery.id, ok, ...other },
-                signal
+                signal,
             ),
-    }
-    Object.assign(shippingQuery, methods)
+    };
+    Object.assign(shippingQuery, methods);
 }

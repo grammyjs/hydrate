@@ -1,5 +1,5 @@
-import { InlineQuery, InlineQueryResult, RawApi } from '../deps.deno.ts'
-import { Other, Ret } from '../plugin.ts'
+import { InlineQuery, InlineQueryResult, RawApi } from "../deps.deno.ts";
+import { Other, Ret } from "../plugin.ts";
 
 export interface InlineQueryX {
     /**
@@ -17,21 +17,21 @@ export interface InlineQueryX {
      */
     answer(
         results: readonly InlineQueryResult[],
-        other?: Other<'answerInlineQuery', 'inline_query_id' | 'results'>,
-        signal?: AbortSignal
-    ): Ret<'answerInlineQuery'>
+        other?: Other<"answerInlineQuery", "inline_query_id" | "results">,
+        signal?: AbortSignal,
+    ): Ret<"answerInlineQuery">;
 }
 
 export function installInlineQueryMethods(
     api: RawApi,
-    inlineQuery: InlineQuery
+    inlineQuery: InlineQuery,
 ) {
-    const methods: Omit<InlineQueryX, 'message'> = {
+    const methods: Omit<InlineQueryX, "message"> = {
         answer: (results, other, signal) =>
             api.answerInlineQuery(
                 { inline_query_id: inlineQuery.id, results, ...other },
-                signal
+                signal,
             ),
-    }
-    Object.assign(inlineQuery, methods)
+    };
+    Object.assign(inlineQuery, methods);
 }

@@ -1,5 +1,5 @@
-import { PreCheckoutQuery, RawApi } from '../deps.deno.ts'
-import { Other, Ret } from '../plugin.ts'
+import { PreCheckoutQuery, RawApi } from "../deps.deno.ts";
+import { Other, Ret } from "../plugin.ts";
 
 export interface PreCheckoutQueryX {
     /**
@@ -13,21 +13,21 @@ export interface PreCheckoutQueryX {
      */
     answer(
         ok: boolean,
-        other?: Other<'answerPreCheckoutQuery', 'pre_checkout_query_id'>,
-        signal?: AbortSignal
-    ): Ret<'answerPreCheckoutQuery'>
+        other?: Other<"answerPreCheckoutQuery", "pre_checkout_query_id">,
+        signal?: AbortSignal,
+    ): Ret<"answerPreCheckoutQuery">;
 }
 
 export function installPreCheckoutQueryMethods(
     api: RawApi,
-    preCheckoutQuery: PreCheckoutQuery
+    preCheckoutQuery: PreCheckoutQuery,
 ) {
-    const methods: Omit<PreCheckoutQueryX, 'message'> = {
+    const methods: Omit<PreCheckoutQueryX, "message"> = {
         answer: (ok, other, signal) =>
             api.answerPreCheckoutQuery(
                 { pre_checkout_query_id: preCheckoutQuery.id, ok, ...other },
-                signal
+                signal,
             ),
-    }
-    Object.assign(preCheckoutQuery, methods)
+    };
+    Object.assign(preCheckoutQuery, methods);
 }
