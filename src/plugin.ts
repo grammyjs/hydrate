@@ -1,3 +1,4 @@
+// deno-lint-ignore-file camelcase
 import {
     Api,
     ApiCallFn,
@@ -210,9 +211,11 @@ type ApiX<A extends Api> = AddX<A> & {
 };
 type RawApiX<R extends RawApi> = AddX<R>;
 
+// deno-lint-ignore no-explicit-any
 type AddX<Q extends Record<keyof X, (...args: any[]) => any>> = {
     [K in keyof X]: Extend<Q[K], X[K]>;
 };
+// deno-lint-ignore no-explicit-any
 type Extend<F extends (...args: any[]) => any, X> = (
     ...args: Parameters<F>
 ) => Promise<Await<ReturnType<F>> & X>;
