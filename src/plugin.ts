@@ -135,6 +135,7 @@ export type Ret<M extends keyof RawApi> = ReturnType<RawApi[M]>;
 // - set permissions
 // - get
 // - get admins
+// - get private chat, get group chat, etc with narrowed return types
 // - etc
 // - all send message methods?
 // - just everything that has a chat_id?
