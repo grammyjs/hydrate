@@ -9,7 +9,7 @@ import {
     RawApi,
     Transformer,
 } from "./deps.deno.ts";
-import { installUpdateMethods } from "./data/update.ts";
+import { installUpdateMethods, UpdateX } from "./data/update.ts";
 import { installMessageMethods, MessageX } from "./data/message.ts";
 import { CallbackQueryX } from "./data/callback-query.ts";
 import { InlineQueryX } from "./data/inline-query.ts";
@@ -22,8 +22,8 @@ import { PreCheckoutQueryX } from "./data/pre-checkout-query.ts";
  * [documentation](https://grammy.dev/guide/context.html#transformative-context-flavours)
  * about this kind of context flavor.
  */
-export type HydrateFlavor<C extends Context> = ContextX<C> & C;
-export type HydrateApiFlavor<A extends Api> = ApiX<A> & A;
+export type HydrateFlavor<C extends Context> = ObjectAssign<C, ContextX<C>>;
+export type HydrateApiFlavor<A extends Api> = ApiX<A>;
 
 /**
  * Mapping table from method names to API call result extensions.
@@ -149,6 +149,14 @@ function toApi(connector: ApiCallFn) {
 }
 
 // Helper types to add `X` to `Context` and `Api` and `RawApi`
+type ObjectAssign<DestType, SourceType> = {
+    [Key in keyof (DestType & SourceType)]: Key extends keyof SourceType
+        ? SourceType[Key]
+        : Key extends keyof DestType
+            ? DestType[Key]
+            : never;
+};
+
 interface ContextX<C extends Context> {
     api: ApiX<C["api"]>;
     reply: Extend<C["reply"], X["sendMessage"]>;
@@ -186,16 +194,8 @@ interface ContextX<C extends Context> {
     replyWithInvoice: Extend<C["replyWithInvoice"], X["sendInvoice"]>;
     replyWithGame: Extend<C["replyWithGame"], X["sendGame"]>;
 
-    update: {
-        message: MessageX | undefined;
-        edited_message: MessageX | undefined;
-        channelPost: MessageX | undefined;
-        edited_channel_post: MessageX | undefined;
-        inline_query: InlineQueryX | undefined;
-        callback_query: CallbackQueryX | undefined;
-        shipping_query: ShippingQueryX | undefined;
-        pre_checkout_query: PreCheckoutQueryX | undefined;
-    };
+    update: UpdateX;
+
     message: MessageX | undefined;
     editedMessage: MessageX | undefined;
     channelPost: MessageX | undefined;
@@ -207,6 +207,7 @@ interface ContextX<C extends Context> {
 
     msg: MessageX | undefined;
 }
+
 type ApiX<A extends Api> = AddX<A> & {
     raw: RawApiX<A["raw"]>;
 };
@@ -214,7 +215,9 @@ type RawApiX<R extends RawApi> = AddX<R>;
 
 // deno-lint-ignore no-explicit-any
 type AddX<Q extends Record<keyof X, (...args: any[]) => any>> = {
-    [K in keyof X]: Extend<Q[K], X[K]>;
+    [K in keyof Q]: K extends keyof X
+        ? Extend<Q[K], X[K]>
+        : Q[K];
 };
 // deno-lint-ignore no-explicit-any
 type Extend<F extends (...args: any[]) => any, X> = (

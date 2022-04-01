@@ -1,9 +1,20 @@
 import { RawApi, Update } from "../deps.deno.ts";
-import { installCallbackQueryMethods } from "./callback-query.ts";
-import { installInlineQueryMethods } from "./inline-query.ts";
-import { installPreCheckoutQueryMethods } from "./pre-checkout-query.ts";
-import { installShippingQueryMethods } from "./shipping-query.ts";
-import { installMessageMethods } from "./message.ts";
+import { CallbackQueryX, installCallbackQueryMethods } from "./callback-query.ts";
+import { InlineQueryX, installInlineQueryMethods } from "./inline-query.ts";
+import { installPreCheckoutQueryMethods, PreCheckoutQueryX } from "./pre-checkout-query.ts";
+import { installShippingQueryMethods, ShippingQueryX } from "./shipping-query.ts";
+import { installMessageMethods, MessageX } from "./message.ts";
+
+export interface UpdateX extends Update {
+    message: MessageX | undefined;
+    edited_message: MessageX | undefined;
+    channel_post: MessageX | undefined;
+    edited_channel_post: MessageX | undefined;
+    inline_query: InlineQueryX | undefined;
+    callback_query: CallbackQueryX | undefined;
+    shipping_query: ShippingQueryX | undefined;
+    pre_checkout_query: PreCheckoutQueryX | undefined;
+}
 
 export function installUpdateMethods(api: RawApi, update: Update) {
     if (update.message !== undefined) {

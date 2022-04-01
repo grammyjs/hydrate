@@ -1,7 +1,7 @@
 import { RawApi, ShippingQuery } from "../deps.deno.ts";
 import { Other, Ret } from "../plugin.ts";
 
-export interface ShippingQueryX {
+interface ShippingQueryXFragment {
     /**
      * Shipping query-aware alias for `api.answerShippingQuery`. If you sent an invoice requesting a shipping address and the parameter is_flexible was specified, the Bot API will send an Update with a shipping_query field to the bot. Use this method to reply to shipping queries. On success, True is returned.
      *
@@ -18,11 +18,13 @@ export interface ShippingQueryX {
     ): Ret<"answerShippingQuery">;
 }
 
+export type ShippingQueryX = ShippingQueryXFragment & ShippingQuery;
+
 export function installShippingQueryMethods(
     api: RawApi,
     shippingQuery: ShippingQuery,
 ) {
-    const methods: Omit<ShippingQueryX, "message"> = {
+    const methods: Omit<ShippingQueryXFragment, "message"> = {
         answer: (ok, other, signal) =>
             api.answerShippingQuery(
                 { shipping_query_id: shippingQuery.id, ok, ...other },
