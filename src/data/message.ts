@@ -11,7 +11,7 @@ type Other<M extends keyof RawApi, K extends string = never> = O<
     K | "chat_id" | "message_id"
 >;
 
-export interface MessageX {
+interface MessageXFragment {
     /**
      * Message-aware alias for `api.forwardMessage`. Use this method to forward messages of any kind. Service messages can't be forwarded. On success, the sent Message is returned.
      *
@@ -151,8 +151,10 @@ export interface MessageX {
     ): Ret<"editMessageMedia">;
 }
 
+export type MessageX = MessageXFragment & Message;
+
 export function installMessageMethods(api: RawApi, message: Message) {
-    const methods: MessageX = {
+    const methods: MessageXFragment = {
         forward: (chat_id, other, signal) =>
             api.forwardMessage(
                 {

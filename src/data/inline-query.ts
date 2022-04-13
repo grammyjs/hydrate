@@ -1,7 +1,7 @@
 import { InlineQuery, InlineQueryResult, RawApi } from "../deps.deno.ts";
 import { Other, Ret } from "../plugin.ts";
 
-export interface InlineQueryX {
+interface InlineQueryXFragment {
     /**
      * Inline query-aware alias for `api.answerInlineQuery`. Use this method to send answers to an inline query. On success, True is returned.
      * No more than 50 results per query are allowed.
@@ -22,11 +22,13 @@ export interface InlineQueryX {
     ): Ret<"answerInlineQuery">;
 }
 
+export type InlineQueryX = InlineQueryXFragment & InlineQuery;
+
 export function installInlineQueryMethods(
     api: RawApi,
     inlineQuery: InlineQuery,
 ) {
-    const methods: Omit<InlineQueryX, "message"> = {
+    const methods: Omit<InlineQueryXFragment, "message"> = {
         answer: (results, other, signal) =>
             api.answerInlineQuery(
                 { inline_query_id: inlineQuery.id, results, ...other },

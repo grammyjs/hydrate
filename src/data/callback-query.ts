@@ -2,7 +2,7 @@ import { CallbackQuery, RawApi } from "../deps.deno.ts";
 import { Other, Ret } from "../plugin.ts";
 import { installMessageMethods, MessageX } from "./message.ts";
 
-export interface CallbackQueryX {
+interface CallbackQueryXFragment {
     message?: MessageX;
 
     /**
@@ -21,6 +21,8 @@ export interface CallbackQueryX {
     ): Ret<"answerCallbackQuery">;
 }
 
+export type CallbackQueryX = CallbackQueryXFragment & CallbackQuery;
+
 export function installCallbackQueryMethods(
     api: RawApi,
     callbackQuery: CallbackQuery,
@@ -29,7 +31,7 @@ export function installCallbackQueryMethods(
         installMessageMethods(api, callbackQuery.message);
     }
 
-    const methods: Omit<CallbackQueryX, "message"> = {
+    const methods: Omit<CallbackQueryXFragment, "message"> = {
         answer: (other, signal) =>
             api.answerCallbackQuery(
                 { callback_query_id: callbackQuery.id, ...other },
