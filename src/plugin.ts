@@ -7,6 +7,7 @@ import {
     InputFileProxy,
     Message,
     RawApi,
+    SentWebAppMessage,
     Transformer,
 } from "./deps.deno.ts";
 import { installUpdateMethods, UpdateX } from "./data/update.ts";
@@ -15,6 +16,7 @@ import { CallbackQueryX } from "./data/callback-query.ts";
 import { InlineQueryX } from "./data/inline-query.ts";
 import { ShippingQueryX } from "./data/shipping-query.ts";
 import { PreCheckoutQueryX } from "./data/pre-checkout-query.ts";
+import { installInlineMessageMethods } from "./data/inline-message.ts";
 
 /**
  * Transformative API Flavor that adds file handling utilities to the supplied
@@ -93,6 +95,8 @@ export function hydrateApi<R extends RawApi = RawApi>(): Transformer<R> {
         if (res.ok) {
             if (isMessage(res.result)) {
                 installMessageMethods(toApi(prev), res.result);
+            } else if (isInlineMessage(res.result)) {
+                installInlineMessageMethods(toApi(prev), res.result);
             }
             // TODO: hydrate other method call results
         }
@@ -107,6 +111,14 @@ function isMessage(obj: unknown): obj is Message {
         obj !== null &&
         "message_id" in obj &&
         "chat" in obj
+    );
+}
+
+function isInlineMessage(obj: unknown): obj is SentWebAppMessage {
+    return (
+        typeof obj === "object" &&
+        obj !== null &&
+        "inline_message_id" in obj
     );
 }
 
@@ -152,9 +164,8 @@ function toApi(connector: ApiCallFn) {
 type ObjectAssign<DestType, SourceType> = {
     [Key in keyof (DestType & SourceType)]: Key extends keyof SourceType
         ? SourceType[Key]
-        : Key extends keyof DestType
-            ? DestType[Key]
-            : never;
+        : Key extends keyof DestType ? DestType[Key]
+        : never;
 };
 
 interface ContextX<C extends Context> {
@@ -215,8 +226,7 @@ type RawApiX<R extends RawApi> = AddX<R>;
 
 // deno-lint-ignore no-explicit-any
 type AddX<Q extends Record<keyof X, (...args: any[]) => any>> = {
-    [K in keyof Q]: K extends keyof X
-        ? Extend<Q[K], X[K]>
+    [K in keyof Q]: K extends keyof X ? Extend<Q[K], X[K]>
         : Q[K];
 };
 // deno-lint-ignore no-explicit-any
