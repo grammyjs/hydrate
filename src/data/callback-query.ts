@@ -1,5 +1,9 @@
 import { CallbackQuery, RawApi } from "../deps.deno.ts";
 import { Other, Ret } from "../plugin.ts";
+import {
+    InlineMessageXFragment,
+    installInlineMessageMethods,
+} from "./inline-message.ts";
 import { installMessageMethods, MessageX } from "./message.ts";
 
 interface CallbackQueryXFragment {
@@ -21,7 +25,10 @@ interface CallbackQueryXFragment {
     ): Ret<"answerCallbackQuery">;
 }
 
-export type CallbackQueryX = CallbackQueryXFragment & CallbackQuery;
+export type CallbackQueryX =
+    & CallbackQueryXFragment
+    & Partial<InlineMessageXFragment>
+    & CallbackQuery;
 
 export function installCallbackQueryMethods(
     api: RawApi,
@@ -29,6 +36,10 @@ export function installCallbackQueryMethods(
 ) {
     if (callbackQuery.message !== undefined) {
         installMessageMethods(api, callbackQuery.message);
+    } else if (callbackQuery.inline_message_id !== undefined) {
+        installInlineMessageMethods(api, {
+            inline_message_id: callbackQuery.inline_message_id,
+        });
     }
 
     const methods: Omit<CallbackQueryXFragment, "message"> = {
