@@ -1,9 +1,22 @@
 import { RawApi, Update } from "../deps.deno.ts";
-import { CallbackQueryX, installCallbackQueryMethods } from "./callback-query.ts";
+import {
+    CallbackQueryX,
+    installCallbackQueryMethods,
+} from "./callback-query.ts";
 import { InlineQueryX, installInlineQueryMethods } from "./inline-query.ts";
-import { installPreCheckoutQueryMethods, PreCheckoutQueryX } from "./pre-checkout-query.ts";
-import { installShippingQueryMethods, ShippingQueryX } from "./shipping-query.ts";
+import {
+    installPreCheckoutQueryMethods,
+    PreCheckoutQueryX,
+} from "./pre-checkout-query.ts";
+import {
+    installShippingQueryMethods,
+    ShippingQueryX,
+} from "./shipping-query.ts";
 import { installMessageMethods, MessageX } from "./message.ts";
+import {
+    ChosenInlineResultX,
+    installChosenInlineResultMethods,
+} from "./chosen-inline-result.ts";
 
 export interface UpdateX extends Update {
     message: MessageX | undefined;
@@ -14,6 +27,7 @@ export interface UpdateX extends Update {
     callback_query: CallbackQueryX | undefined;
     shipping_query: ShippingQueryX | undefined;
     pre_checkout_query: PreCheckoutQueryX | undefined;
+    chosen_inline_result: ChosenInlineResultX | undefined;
 }
 
 export function installUpdateMethods(api: RawApi, update: Update) {
@@ -33,5 +47,7 @@ export function installUpdateMethods(api: RawApi, update: Update) {
         installShippingQueryMethods(api, update.shipping_query);
     } else if (update.pre_checkout_query !== undefined) {
         installPreCheckoutQueryMethods(api, update.pre_checkout_query);
+    } else if (update.chosen_inline_result !== undefined) {
+        installChosenInlineResultMethods(api, update.chosen_inline_result);
     }
 }
