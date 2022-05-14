@@ -1,11 +1,9 @@
 export {
     Api,
+    type ApiCallFn,
     Context,
     InputFile,
-} from "https://raw.githubusercontent.com/grammyjs/grammY/fe187959320eea64d1c9e9444d14fe3c3cebeb8d/src/mod.ts";
-export type {
-    ApiCallFn,
-    RawApi,
-    Transformer,
-} from "https://raw.githubusercontent.com/grammyjs/grammY/fe187959320eea64d1c9e9444d14fe3c3cebeb8d/src/mod.ts";
+    type RawApi,
+    type Transformer,
+} from "https://lib.deno.dev/x/grammy@v1/mod.ts";
 export * from "https://esm.sh/@grammyjs/types@v2";
