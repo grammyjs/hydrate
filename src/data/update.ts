@@ -17,6 +17,10 @@ import {
     ChosenInlineResultX,
     installChosenInlineResultMethods,
 } from "./chosen-inline-result.ts";
+import {
+    ChatJoinRequestX,
+    installChatJoinRequestMethods,
+} from "./chat-join-request.ts";
 
 export interface UpdateX extends Update {
     message: MessageX | undefined;
@@ -28,6 +32,7 @@ export interface UpdateX extends Update {
     shipping_query: ShippingQueryX | undefined;
     pre_checkout_query: PreCheckoutQueryX | undefined;
     chosen_inline_result: ChosenInlineResultX | undefined;
+    chat_join_request: ChatJoinRequestX | undefined;
 }
 
 export function installUpdateMethods(api: RawApi, update: Update) {
@@ -49,5 +54,7 @@ export function installUpdateMethods(api: RawApi, update: Update) {
         installPreCheckoutQueryMethods(api, update.pre_checkout_query);
     } else if (update.chosen_inline_result !== undefined) {
         installChosenInlineResultMethods(api, update.chosen_inline_result);
+    } else if (update.chat_join_request !== undefined) {
+        installChatJoinRequestMethods(api, update.chat_join_request);
     }
 }

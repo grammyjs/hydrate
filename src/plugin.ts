@@ -17,6 +17,7 @@ import { InlineQueryX } from "./data/inline-query.ts";
 import { ShippingQueryX } from "./data/shipping-query.ts";
 import { PreCheckoutQueryX } from "./data/pre-checkout-query.ts";
 import { installInlineMessageMethods } from "./data/inline-message.ts";
+import { ChatJoinRequestX } from "./data/chat-join-request.ts";
 
 /**
  * Transformative API Flavor that adds file handling utilities to the supplied
@@ -215,6 +216,7 @@ interface ContextX<C extends Context> {
     callbackQuery: CallbackQueryX | undefined;
     shippingQuery: ShippingQueryX | undefined;
     preCheckoutQuery: PreCheckoutQueryX | undefined;
+    chatJoinRequest: ChatJoinRequestX | undefined;
 
     msg: MessageX | undefined;
 }
