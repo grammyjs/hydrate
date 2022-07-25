@@ -1,5 +1,5 @@
-import { RawApi, ShippingQuery } from "../deps.deno.ts";
-import { Other, Ret } from "../plugin.ts";
+import { type RawApi, type ShippingQuery } from "../deps.deno.ts";
+import { type Other, type Ret } from "../plugin.ts";
 
 interface ShippingQueryXFragment {
     /**

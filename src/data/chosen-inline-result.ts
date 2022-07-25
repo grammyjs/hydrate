@@ -1,6 +1,6 @@
-import { ChosenInlineResult, RawApi } from "../deps.deno.ts";
+import { type ChosenInlineResult, type RawApi } from "../deps.deno.ts";
 import {
-    InlineMessageXFragment,
+    type InlineMessageXFragment,
     installInlineMessageMethods,
 } from "./inline-message.ts";
 

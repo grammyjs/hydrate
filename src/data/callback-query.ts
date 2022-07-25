@@ -1,10 +1,10 @@
-import { CallbackQuery, RawApi } from "../deps.deno.ts";
-import { Other, Ret } from "../plugin.ts";
+import { type CallbackQuery, type RawApi } from "../deps.deno.ts";
+import { type Other, type Ret } from "../plugin.ts";
 import {
-    InlineMessageXFragment,
+    type InlineMessageXFragment,
     installInlineMessageMethods,
 } from "./inline-message.ts";
-import { installMessageMethods, MessageX } from "./message.ts";
+import { installMessageMethods, type MessageX } from "./message.ts";
 
 interface CallbackQueryXFragment {
     message?: MessageX;

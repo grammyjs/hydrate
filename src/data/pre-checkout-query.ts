@@ -1,5 +1,5 @@
-import { PreCheckoutQuery, RawApi } from "../deps.deno.ts";
-import { Other, Ret } from "../plugin.ts";
+import { type PreCheckoutQuery, type RawApi } from "../deps.deno.ts";
+import { type Other, type Ret } from "../plugin.ts";
 
 interface PreCheckoutQueryXFragment {
     /**

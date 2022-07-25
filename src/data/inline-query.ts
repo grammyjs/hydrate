@@ -1,5 +1,9 @@
-import { InlineQuery, InlineQueryResult, RawApi } from "../deps.deno.ts";
-import { Other, Ret } from "../plugin.ts";
+import {
+    type InlineQuery,
+    type InlineQueryResult,
+    type RawApi,
+} from "../deps.deno.ts";
+import { type Other, type Ret } from "../plugin.ts";
 
 interface InlineQueryXFragment {
     /**

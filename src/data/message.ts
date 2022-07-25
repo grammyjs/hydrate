@@ -1,6 +1,6 @@
-import { Message, RawApi } from "../deps.deno.ts";
-import { InlineMessageXFragment } from "./inline-message.ts";
-import { Other as O, Ret } from "../plugin.ts";
+import { type Message, type RawApi } from "../deps.deno.ts";
+import { type InlineMessageXFragment } from "./inline-message.ts";
+import { type Other as O, type Ret } from "../plugin.ts";
 type Other<M extends keyof RawApi, K extends string = never> = O<
     M,
     K | "chat_id" | "message_id"

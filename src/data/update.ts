@@ -1,24 +1,27 @@
-import { RawApi, Update } from "../deps.deno.ts";
+import { type RawApi, type Update } from "../deps.deno.ts";
 import {
-    CallbackQueryX,
+    type CallbackQueryX,
     installCallbackQueryMethods,
 } from "./callback-query.ts";
-import { InlineQueryX, installInlineQueryMethods } from "./inline-query.ts";
+import {
+    type InlineQueryX,
+    installInlineQueryMethods,
+} from "./inline-query.ts";
 import {
     installPreCheckoutQueryMethods,
-    PreCheckoutQueryX,
+    type PreCheckoutQueryX,
 } from "./pre-checkout-query.ts";
 import {
     installShippingQueryMethods,
-    ShippingQueryX,
+    type ShippingQueryX,
 } from "./shipping-query.ts";
-import { installMessageMethods, MessageX } from "./message.ts";
+import { installMessageMethods, type MessageX } from "./message.ts";
 import {
-    ChosenInlineResultX,
+    type ChosenInlineResultX,
     installChosenInlineResultMethods,
 } from "./chosen-inline-result.ts";
 import {
-    ChatJoinRequestX,
+    type ChatJoinRequestX,
     installChatJoinRequestMethods,
 } from "./chat-join-request.ts";
 

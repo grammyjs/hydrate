@@ -1,23 +1,23 @@
 // deno-lint-ignore-file camelcase
 import {
-    Api,
-    ApiCallFn,
-    Context,
-    InputFile,
-    InputFileProxy,
-    Message,
-    RawApi,
-    SentWebAppMessage,
-    Transformer,
+    type Api,
+    type ApiCallFn,
+    type Context,
+    type InputFile,
+    type InputFileProxy,
+    type Message,
+    type RawApi,
+    type SentWebAppMessage,
+    type Transformer,
 } from "./deps.deno.ts";
-import { installUpdateMethods, UpdateX } from "./data/update.ts";
-import { installMessageMethods, MessageX } from "./data/message.ts";
-import { CallbackQueryX } from "./data/callback-query.ts";
-import { InlineQueryX } from "./data/inline-query.ts";
-import { ShippingQueryX } from "./data/shipping-query.ts";
-import { PreCheckoutQueryX } from "./data/pre-checkout-query.ts";
+import { installUpdateMethods, type UpdateX } from "./data/update.ts";
+import { installMessageMethods, type MessageX } from "./data/message.ts";
+import { type CallbackQueryX } from "./data/callback-query.ts";
+import { type InlineQueryX } from "./data/inline-query.ts";
+import { type ShippingQueryX } from "./data/shipping-query.ts";
+import { type PreCheckoutQueryX } from "./data/pre-checkout-query.ts";
 import { installInlineMessageMethods } from "./data/inline-message.ts";
-import { ChatJoinRequestX } from "./data/chat-join-request.ts";
+import { type ChatJoinRequestX } from "./data/chat-join-request.ts";
 
 /**
  * Transformative API Flavor that adds file handling utilities to the supplied

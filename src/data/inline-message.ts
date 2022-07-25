@@ -1,9 +1,9 @@
 import {
-    InlineKeyboardMarkup,
-    InputFile,
-    InputFileProxy,
-    RawApi,
-    SentWebAppMessage,
+    type InlineKeyboardMarkup,
+    type InputFile,
+    type InputFileProxy,
+    type RawApi,
+    type SentWebAppMessage,
 } from "../deps.deno.ts";
 import { Other as O, Ret } from "../plugin.ts";
 type Other<M extends keyof RawApi, K extends string = never> = O<

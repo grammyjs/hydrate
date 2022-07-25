@@ -1,5 +1,5 @@
-import { ChatJoinRequest, RawApi } from "../deps.deno.ts";
-import { Ret } from "../plugin.ts";
+import { type ChatJoinRequest, type RawApi } from "../deps.deno.ts";
+import { type Ret } from "../plugin.ts";
 
 interface ChatJoinRequestXFragment {
     /**
