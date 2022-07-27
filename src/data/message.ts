@@ -1,4 +1,4 @@
-import { type Message, type RawApi } from "../deps.deno.ts";
+import { type Message, type MessageEntity, type RawApi } from "../deps.deno.ts";
 import { type InlineMessageXFragment } from "./inline-message.ts";
 import { type Other as O, type Ret } from "../plugin.ts";
 type Other<M extends keyof RawApi, K extends string = never> = O<
@@ -23,7 +23,7 @@ interface MessageXFragment extends InlineMessageXFragment {
     ): Ret<"forwardMessage">;
 
     /**
-     * Message-aware alias for `api.copyMessage`. Use this method to copy messages of any kind. Service messages and invoice messages can't be copied. The method is analogous to the method forwardMessage, but the copied message doesn't have a link to the original message. Returns the MessageId of the sent message on success.
+     * Message-aware alias for `api.copyMessage`. Use this method to copy messages of any kind. Service messages and invoice messages can't be copied. A quiz poll can be copied only if the value of the field correct_option_id is known to the bot. The method is analogous to the method forwardMessage, but the copied message doesn't have a link to the original message. Returns the MessageId of the sent message on success.
      *
      * @param chat_id Unique identifier for the target chat or username of the target channel (in the format @channelusername)
      * @param other Optional remaining parameters, confer the official reference below
@@ -53,6 +53,15 @@ interface MessageXFragment extends InlineMessageXFragment {
      * **Official reference:** https://core.telegram.org/bots/api#deletemessage
      */
     delete(signal?: AbortSignal): Ret<"deleteMessage">;
+
+    /**
+     * Message-aware alias for `api.getCustomEmojiStickers`. Use this method to get information about emoji stickers by their identifiers. Returns an Array of Sticker on success.
+     *
+     * @param signal Optional `AbortSignal` to cancel the request
+     *
+     * **Official reference:** https://core.telegram.org/bots/api#getcustomemojistickers
+     */
+    getCustomEmojiStickers(signal?: AbortSignal): Ret<"getCustomEmojiStickers">;
 }
 
 export type MessageX = MessageXFragment & Message;
@@ -146,6 +155,17 @@ export function installMessageMethods(api: RawApi, message: Message) {
                 },
                 signal,
             ),
+        getCustomEmojiStickers: async (signal) => {
+            const entities = message.entities ?? message.caption_entities;
+            if (entities === undefined || entities.length === 0) return [];
+            type Emoji = MessageEntity.CustomEmojiMessageEntity;
+            const identifiers = entities
+                .filter((entity): entity is Emoji =>
+                    entity.type === "custom_emoji"
+                )
+                .map((entity) => entity.custom_emoji_id);
+            return await api.getCustomEmojiStickers(identifiers, signal);
+        },
     };
     Object.assign(message, methods);
 }
