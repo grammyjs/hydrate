@@ -160,11 +160,12 @@ export function installMessageMethods(api: RawApi, message: Message) {
             if (entities === undefined || entities.length === 0) return [];
             type Emoji = MessageEntity.CustomEmojiMessageEntity;
             const identifiers = entities
-                .filter((entity): entity is Emoji =>
-                    entity.type === "custom_emoji"
-                )
-                .map((entity) => entity.custom_emoji_id);
-            return await api.getCustomEmojiStickers(identifiers, signal);
+                .filter((e): e is Emoji => e.type === "custom_emoji")
+                .map((e) => e.custom_emoji_id);
+            return await api.getCustomEmojiStickers(
+                { custom_emoji_ids: identifiers },
+                signal,
+            );
         },
     };
     Object.assign(message, methods);
