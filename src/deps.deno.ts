@@ -2,6 +2,7 @@ export {
     Api,
     type ApiCallFn,
     Context,
+    GrammyError,
     InputFile,
     type RawApi,
     type Transformer,

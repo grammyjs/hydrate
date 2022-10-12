@@ -3,6 +3,7 @@ import {
     type Api,
     type ApiCallFn,
     type Context,
+    GrammyError,
     type InputFile,
     type InputFileProxy,
     type Message,
@@ -155,8 +156,21 @@ export type Ret<M extends keyof RawApi> = ReturnType<RawApi[M]>;
 
 function toApi(connector: ApiCallFn) {
     return new Proxy({} as RawApi, {
-        get(_, m: string & keyof RawApi) {
-            return connector.bind(null, m);
+        get(_, method: string & keyof RawApi) {
+            const api = connector.bind(null, method);
+            return async (...args: Parameters<typeof api>) => {
+                const data = await api(...args);
+                if (data.ok) {
+                    return data.result;
+                } else {
+                    throw new GrammyError(
+                        `Call to '${method}' failed!`,
+                        data,
+                        method,
+                        args[0],
+                    );
+                }
+            };
         },
     });
 }
