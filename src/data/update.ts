@@ -4,9 +4,18 @@ import {
     installCallbackQueryMethods,
 } from "./callback-query.ts";
 import {
+    type ChatJoinRequestX,
+    installChatJoinRequestMethods,
+} from "./chat-join-request.ts";
+import {
+    type ChosenInlineResultX,
+    installChosenInlineResultMethods,
+} from "./chosen-inline-result.ts";
+import {
     type InlineQueryX,
     installInlineQueryMethods,
 } from "./inline-query.ts";
+import { installMessageMethods, type MessageX } from "./message.ts";
 import {
     installPreCheckoutQueryMethods,
     type PreCheckoutQueryX,
@@ -15,15 +24,6 @@ import {
     installShippingQueryMethods,
     type ShippingQueryX,
 } from "./shipping-query.ts";
-import { installMessageMethods, type MessageX } from "./message.ts";
-import {
-    type ChosenInlineResultX,
-    installChosenInlineResultMethods,
-} from "./chosen-inline-result.ts";
-import {
-    type ChatJoinRequestX,
-    installChatJoinRequestMethods,
-} from "./chat-join-request.ts";
 
 export interface UpdateX extends Update {
     message: MessageX | undefined;
