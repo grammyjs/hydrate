@@ -6,7 +6,7 @@ type Other<M extends keyof RawApi, K extends string = never> = O<
     K | "chat_id" | "message_id"
 >;
 
-interface MessageXFragment extends InlineMessageXFragment {
+export interface MessageXFragment extends InlineMessageXFragment {
     /**
      * Message-aware alias for `api.forwardMessage`. Use this method to forward messages of any kind. Service messages can't be forwarded. On success, the sent Message is returned.
      *
