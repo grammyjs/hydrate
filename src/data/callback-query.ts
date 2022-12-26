@@ -6,7 +6,7 @@ import {
 } from "./inline-message.ts";
 import { installMessageMethods, type MessageX } from "./message.ts";
 
-interface CallbackQueryXFragment {
+export interface CallbackQueryXFragment {
     message?: MessageX;
 
     /**

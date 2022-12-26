@@ -5,7 +5,7 @@ import {
 } from "../deps.deno.ts";
 import { type Other, type Ret } from "../plugin.ts";
 
-interface InlineQueryXFragment {
+export interface InlineQueryXFragment {
     /**
      * Inline query-aware alias for `api.answerInlineQuery`. Use this method to send answers to an inline query. On success, True is returned.
      * No more than 50 results per query are allowed.
