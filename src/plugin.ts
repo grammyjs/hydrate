@@ -18,6 +18,7 @@ import {
     type RawApi,
     type SentWebAppMessage,
     type Transformer,
+    type Update,
 } from "./deps.deno.ts";
 
 /**
@@ -222,10 +223,12 @@ interface ContextX<C extends Context> {
 
     update: UpdateX;
 
-    message: MessageX | undefined;
-    editedMessage: MessageX | undefined;
-    channelPost: MessageX | undefined;
-    editedChannelPost: MessageX | undefined;
+    message: (MessageX & Update.NonChannel) | undefined;
+    editedMessage: (MessageX & Update.Edited & Update.NonChannel) | undefined;
+    channelPost: (MessageX & Update.Channel) | undefined;
+    editedChannelPost:
+        | (MessageX & Update.Edited & Update.Channel)
+        | undefined;
     inlineQuery: InlineQueryX | undefined;
     callbackQuery: CallbackQueryX | undefined;
     shippingQuery: ShippingQueryX | undefined;
