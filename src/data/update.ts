@@ -26,9 +26,9 @@ import {
 } from "./shipping-query.ts";
 
 export interface UpdateX extends Update {
-    message: MessageX & Update.NonChannel | undefined;
+    message: MessageX & Update.New & Update.NonChannel | undefined;
     edited_message: MessageX & Update.Edited & Update.NonChannel | undefined;
-    channel_post: MessageX & Update.Channel | undefined;
+    channel_post: MessageX & Update.New & Update.Channel | undefined;
     edited_channel_post: MessageX & Update.Edited & Update.Channel | undefined;
     inline_query: InlineQueryX | undefined;
     callback_query: CallbackQueryX | undefined;

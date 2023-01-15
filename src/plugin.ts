@@ -223,9 +223,9 @@ interface ContextX<C extends Context> {
 
     update: UpdateX;
 
-    message: (MessageX & Update.NonChannel) | undefined;
+    message: (MessageX & Update.New & Update.NonChannel) | undefined;
     editedMessage: (MessageX & Update.Edited & Update.NonChannel) | undefined;
-    channelPost: (MessageX & Update.Channel) | undefined;
+    channelPost: (MessageX & Update.New & Update.Channel) | undefined;
     editedChannelPost:
         | (MessageX & Update.Edited & Update.Channel)
         | undefined;
