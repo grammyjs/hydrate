@@ -1,3 +1,4 @@
+// export * from "@grammyjs/types";
 export {
     Api,
     ApiCallFn,
@@ -7,4 +8,4 @@ export {
     RawApi,
     Transformer,
 } from "grammy";
-export * from "@grammyjs/types";
+export * from "grammy/types";

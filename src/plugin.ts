@@ -12,9 +12,8 @@ import {
     type ApiCallFn,
     type Context,
     GrammyError,
-    type InputFile,
-    type InputFileProxy,
     type Message,
+    type Opts,
     type RawApi,
     type SentWebAppMessage,
     type Transformer,
@@ -129,7 +128,7 @@ export type Other<M extends keyof RawApi, K extends string = never> = Omit<
     Opts<M>,
     K
 >;
-export type Opts<M extends keyof RawApi> = InputFileProxy<InputFile>["Opts"][M];
+
 export type Ret<M extends keyof RawApi> = ReturnType<RawApi[M]>;
 
 // TODO: add support for the following methods of these objects
