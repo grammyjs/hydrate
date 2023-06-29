@@ -4,6 +4,7 @@ import {
     type RawApi,
 } from "../deps.deno.ts";
 import { type Other, type Ret } from "../plugin.ts";
+import { installUserMethods, NoChatInfoUserX } from "./user.ts";
 
 export interface InlineQueryXFragment {
     /**
@@ -26,7 +27,10 @@ export interface InlineQueryXFragment {
     ): Ret<"answerInlineQuery">;
 }
 
-export type InlineQueryX = InlineQueryXFragment & InlineQuery;
+export type InlineQueryX =
+    & InlineQueryXFragment
+    & InlineQuery
+    & { from: NoChatInfoUserX };
 
 export function installInlineQueryMethods(
     api: RawApi,
@@ -39,5 +43,8 @@ export function installInlineQueryMethods(
                 signal,
             ),
     };
+
+    installUserMethods(api, inlineQuery.from, undefined);
+
     Object.assign(inlineQuery, methods);
 }

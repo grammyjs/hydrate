@@ -1,5 +1,6 @@
 import { type PreCheckoutQuery, type RawApi } from "../deps.deno.ts";
 import { type Other, type Ret } from "../plugin.ts";
+import { installUserMethods, NoChatInfoUserX } from "./user.ts";
 
 export interface PreCheckoutQueryXFragment {
     /**
@@ -18,7 +19,10 @@ export interface PreCheckoutQueryXFragment {
     ): Ret<"answerPreCheckoutQuery">;
 }
 
-export type PreCheckoutQueryX = PreCheckoutQueryXFragment & PreCheckoutQuery;
+export type PreCheckoutQueryX =
+    & PreCheckoutQueryXFragment
+    & PreCheckoutQuery
+    & { from: NoChatInfoUserX };
 
 export function installPreCheckoutQueryMethods(
     api: RawApi,
@@ -31,5 +35,8 @@ export function installPreCheckoutQueryMethods(
                 signal,
             ),
     };
+
+    installUserMethods(api, preCheckoutQuery.from);
+
     Object.assign(preCheckoutQuery, methods);
 }

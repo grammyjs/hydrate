@@ -7,6 +7,7 @@ import { installMessageMethods, type MessageX } from "./data/message.ts";
 import { type PreCheckoutQueryX } from "./data/pre-checkout-query.ts";
 import { type ShippingQueryX } from "./data/shipping-query.ts";
 import { installUpdateMethods, type UpdateX } from "./data/update.ts";
+import { NoChatInfoUserX } from "./data/user.ts";
 import {
     type Api,
     type ApiCallFn,
@@ -133,17 +134,6 @@ export type Ret<M extends keyof RawApi> = ReturnType<RawApi[M]>;
 
 // TODO: add support for the following methods of these objects
 
-// === USERS
-
-// - get user profile photos
-// - ban
-// - unban
-// - restrict
-// - promote
-// - set custom title
-// - get (private)
-// - get in chat (groups)
-
 // === CHATS
 
 // - set permissions
@@ -235,6 +225,7 @@ interface ContextX<C extends Context> {
     chatJoinRequest: ChatJoinRequestX | undefined;
 
     msg: MessageX | undefined;
+    from: NoChatInfoUserX | undefined;
 }
 
 type ApiX<A extends Api> = AddX<A> & {

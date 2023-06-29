@@ -3,10 +3,12 @@ import {
     type InlineMessageXFragment,
     installInlineMessageMethods,
 } from "./inline-message.ts";
+import { installUserMethods, UserX } from "./user.ts";
 
 export type ChosenInlineResultX =
     & Partial<InlineMessageXFragment>
-    & ChosenInlineResult;
+    & ChosenInlineResult
+    & { from: UserX };
 
 export function installChosenInlineResultMethods(
     api: RawApi,
@@ -17,4 +19,6 @@ export function installChosenInlineResultMethods(
             inline_message_id: chosenInlineResult.inline_message_id,
         });
     }
+
+    installUserMethods(api, chosenInlineResult.from);
 }
