@@ -1,5 +1,6 @@
 import { type ChatJoinRequest, type RawApi } from "../deps.deno.ts";
 import { type Ret } from "../plugin.ts";
+import { ChatX, installChatMethods } from "./chat.ts";
 import { installUserMethods, UserX } from "./user.ts";
 
 export interface ChatJoinRequestXFragment {
@@ -22,9 +23,11 @@ export interface ChatJoinRequestXFragment {
     decline(signal?: AbortSignal): Ret<"declineChatJoinRequest">;
 }
 
-export type ChatJoinRequestX = ChatJoinRequestXFragment & ChatJoinRequest & {
-    from: UserX;
-};
+export type ChatJoinRequestX =
+    & ChatJoinRequestXFragment
+    & ChatJoinRequest
+    & { from: UserX }
+    & { chat: ChatX };
 
 export function installChatJoinRequestMethods(
     api: RawApi,
@@ -49,6 +52,7 @@ export function installChatJoinRequestMethods(
             ),
     };
 
+    installChatMethods(api, chatJoinRequest.chat);
     installUserMethods(api, chatJoinRequest.from, chatJoinRequest.chat);
 
     Object.assign(chatJoinRequest, methods);

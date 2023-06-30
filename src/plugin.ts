@@ -132,18 +132,6 @@ export type Other<M extends keyof RawApi, K extends string = never> = Omit<
 
 export type Ret<M extends keyof RawApi> = ReturnType<RawApi[M]>;
 
-// TODO: add support for the following methods of these objects
-
-// === CHATS
-
-// - set permissions
-// - get
-// - get admins
-// - get private chat, get group chat, etc with narrowed return types
-// - etc
-// - all send message methods?
-// - just everything that has a chat_id?
-
 function toApi(connector: ApiCallFn) {
     return new Proxy({} as RawApi, {
         get(_, method: string & keyof RawApi) {

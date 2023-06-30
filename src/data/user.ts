@@ -1,13 +1,3 @@
-// === USERS
-// - get user profile photos
-// - ban
-// - unban
-// - restrict
-// - promote
-// - set custom title
-// - get (private)
-// - get in chat (groups)
-
 import { Chat, ChatPermissions, RawApi, User } from "../deps.deno.ts";
 import { Other, Ret } from "../plugin.ts";
 

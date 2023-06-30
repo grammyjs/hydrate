@@ -44,7 +44,7 @@ export function installInlineQueryMethods(
             ),
     };
 
-    installUserMethods(api, inlineQuery.from, undefined);
+    installUserMethods(api, inlineQuery.from);
 
     Object.assign(inlineQuery, methods);
 }
