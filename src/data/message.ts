@@ -1,8 +1,6 @@
 import { type Message, type MessageEntity, type RawApi } from "../deps.deno.ts";
 import { type Other as O, type Ret } from "../plugin.ts";
-import { ChatX, installChatMethods } from "./chat.ts";
 import { type InlineMessageXFragment } from "./inline-message.ts";
-import { installUserMethods, UserX } from "./user.ts";
 type Other<M extends keyof RawApi, K extends string = never> = O<
     M,
     K | "chat_id" | "message_id"
@@ -68,9 +66,7 @@ export interface MessageXFragment extends InlineMessageXFragment {
 
 export type MessageX =
     & MessageXFragment
-    & Message
-    & { from: UserX | undefined }
-    & { chat: ChatX };
+    & Message;
 
 export function installMessageMethods(api: RawApi, message: Message) {
     const methods: MessageXFragment = {
@@ -174,9 +170,6 @@ export function installMessageMethods(api: RawApi, message: Message) {
             );
         },
     };
-
-    if (message.from) installUserMethods(api, message.from, message.chat);
-    installChatMethods(api, message.chat);
 
     Object.assign(message, methods);
 }

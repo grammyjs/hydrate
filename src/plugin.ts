@@ -1,16 +1,19 @@
 // deno-lint-ignore-file camelcase
 import { type CallbackQueryX } from "./data/callback-query.ts";
 import { type ChatJoinRequestX } from "./data/chat-join-request.ts";
+import { ChatX, installChatMethods } from "./data/chat.ts";
 import { installInlineMessageMethods } from "./data/inline-message.ts";
 import { type InlineQueryX } from "./data/inline-query.ts";
 import { installMessageMethods, type MessageX } from "./data/message.ts";
 import { type PreCheckoutQueryX } from "./data/pre-checkout-query.ts";
 import { type ShippingQueryX } from "./data/shipping-query.ts";
-import { installUpdateMethods, type UpdateX } from "./data/update.ts";
-import { NoChatInfoUserX } from "./data/user.ts";
+import { installUpdateMethods, UpdateX } from "./data/update.ts";
+import { ChatMemberX, installUserMethods } from "./data/user.ts";
 import {
     type Api,
     type ApiCallFn,
+    Chat,
+    ChatMember,
     type Context,
     GrammyError,
     type Message,
@@ -62,6 +65,8 @@ interface X {
     sendInvoice: MessageX;
     sendGame: MessageX;
     setGameScore: MessageX | true;
+    getChat: ChatX;
+    getChatMember: ChatMemberX;
 }
 
 /**
@@ -100,6 +105,14 @@ export function hydrateApi<R extends RawApi = RawApi>(): Transformer<R> {
                 installMessageMethods(toApi(prev), res.result);
             } else if (isInlineMessage(res.result)) {
                 installInlineMessageMethods(toApi(prev), res.result);
+            } else if (isChatMember(res.result) && hasChatId(payload)) {
+                installUserMethods(
+                    toApi(prev),
+                    res.result.user,
+                    payload.chat_id,
+                );
+            } else if (isChat(res.result)) {
+                installChatMethods(toApi(prev), res.result);
             }
             // TODO: hydrate other method call results
         }
@@ -122,6 +135,35 @@ function isInlineMessage(obj: unknown): obj is SentWebAppMessage {
         typeof obj === "object" &&
         obj !== null &&
         "inline_message_id" in obj
+    );
+}
+
+function isChatMember(obj: unknown): obj is ChatMember {
+    return (
+        typeof obj === "object" &&
+        obj !== null &&
+        "status" in obj &&
+        "user" in obj
+    );
+}
+
+function isChat(obj: unknown): obj is Chat {
+    return (
+        typeof obj === "object" &&
+        obj !== null &&
+        "id" in obj &&
+        "type" in obj &&
+        typeof obj.type === "string" &&
+        ["private", "group", "supergroup", "channel"].includes(obj.type)
+    );
+}
+
+function hasChatId(obj: unknown): obj is { chat_id: number } {
+    return (
+        typeof obj === "object" &&
+        obj !== null &&
+        "chat_id" in obj &&
+        typeof obj.chat_id === "number"
     );
 }
 
@@ -197,6 +239,9 @@ interface ContextX<C extends Context> {
     replyWithSticker: Extend<C["replyWithSticker"], X["sendSticker"]>;
     replyWithInvoice: Extend<C["replyWithInvoice"], X["sendInvoice"]>;
     replyWithGame: Extend<C["replyWithGame"], X["sendGame"]>;
+    getChatMember: Extend<C["getChatMember"], X["getChatMember"]>;
+    getChat: Extend<C["getChat"], X["getChat"]>;
+    getAuthor: Extend<C["getAuthor"], X["getChatMember"]>;
 
     update: UpdateX;
 
@@ -213,7 +258,6 @@ interface ContextX<C extends Context> {
     chatJoinRequest: ChatJoinRequestX | undefined;
 
     msg: MessageX | undefined;
-    from: NoChatInfoUserX | undefined;
 }
 
 type ApiX<A extends Api> = AddX<A> & {

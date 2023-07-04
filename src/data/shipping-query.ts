@@ -1,6 +1,5 @@
 import { type RawApi, type ShippingQuery } from "../deps.deno.ts";
 import { type Other, type Ret } from "../plugin.ts";
-import { installUserMethods, NoChatInfoUserX } from "./user.ts";
 
 export interface ShippingQueryXFragment {
     /**
@@ -21,8 +20,7 @@ export interface ShippingQueryXFragment {
 
 export type ShippingQueryX =
     & ShippingQueryXFragment
-    & ShippingQuery
-    & { from: NoChatInfoUserX };
+    & ShippingQuery;
 
 export function installShippingQueryMethods(
     api: RawApi,
@@ -35,8 +33,6 @@ export function installShippingQueryMethods(
                 signal,
             ),
     };
-
-    installUserMethods(api, shippingQuery.from);
 
     Object.assign(shippingQuery, methods);
 }

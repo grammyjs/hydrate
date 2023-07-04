@@ -5,7 +5,6 @@ import {
     installInlineMessageMethods,
 } from "./inline-message.ts";
 import { installMessageMethods, type MessageX } from "./message.ts";
-import { installUserMethods, NoChatInfoUserX } from "./user.ts";
 
 export interface CallbackQueryXFragment {
     message?: MessageX;
@@ -29,8 +28,7 @@ export interface CallbackQueryXFragment {
 export type CallbackQueryX =
     & CallbackQueryXFragment
     & Partial<InlineMessageXFragment>
-    & CallbackQuery
-    & { from: NoChatInfoUserX };
+    & CallbackQuery;
 
 export function installCallbackQueryMethods(
     api: RawApi,
@@ -51,8 +49,6 @@ export function installCallbackQueryMethods(
                 signal,
             ),
     };
-
-    installUserMethods(api, callbackQuery.from);
 
     Object.assign(callbackQuery, methods);
 }

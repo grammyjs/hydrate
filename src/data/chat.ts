@@ -1,4 +1,10 @@
-import { Chat, ChatPermissions, InputFile, RawApi } from "../deps.deno.ts";
+import {
+    Chat,
+    ChatFromGetChat,
+    ChatPermissions,
+    InputFile,
+    RawApi,
+} from "../deps.deno.ts";
 import { Other, Ret } from "../plugin.ts";
 
 export interface ChatXFragment {
@@ -155,7 +161,7 @@ export interface ChatXFragment {
     ): Ret<"unbanChatMember">;
 }
 
-export type ChatX = ChatXFragment & Chat;
+export type ChatX = ChatXFragment & ChatFromGetChat;
 
 export function installChatMethods(api: RawApi, chat: Chat) {
     const methods: ChatXFragment = {
