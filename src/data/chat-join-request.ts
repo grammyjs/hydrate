@@ -23,7 +23,7 @@ export interface ChatJoinRequestXFragment {
     decline(signal?: AbortSignal): Ret<"declineChatJoinRequest">;
 }
 
-export type ChatJoinRequestX = & ChatJoinRequestXFragment & ChatJoinRequest;
+export type ChatJoinRequestX = ChatJoinRequestXFragment & ChatJoinRequest;
 
 export function installChatJoinRequestMethods(
     api: RawApi,
