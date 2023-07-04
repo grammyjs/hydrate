@@ -4,7 +4,6 @@ import {
     type RawApi,
 } from "../deps.deno.ts";
 import { type Other, type Ret } from "../plugin.ts";
-import { UserX } from "./user.ts";
 
 export interface InlineQueryXFragment {
     /**
@@ -29,8 +28,7 @@ export interface InlineQueryXFragment {
 
 export type InlineQueryX =
     & InlineQueryXFragment
-    & InlineQuery
-    & { from: UserX };
+    & InlineQuery;
 
 export function installInlineQueryMethods(
     api: RawApi,
