@@ -1,7 +1,7 @@
 import { type ChatJoinRequest, type RawApi } from "../deps.deno.ts";
 import { type Ret } from "../plugin.ts";
 import { ChatX, installChatMethods } from "./chat.ts";
-import { installUserMethods, UserX } from "./user.ts";
+import { UserX , installUserMethods } from "./user.ts";
 
 export interface ChatJoinRequestXFragment {
     /**
