@@ -18,9 +18,7 @@ export interface PreCheckoutQueryXFragment {
     ): Ret<"answerPreCheckoutQuery">;
 }
 
-export type PreCheckoutQueryX =
-    & PreCheckoutQueryXFragment
-    & PreCheckoutQuery;
+export type PreCheckoutQueryX = PreCheckoutQueryXFragment & PreCheckoutQuery;
 
 export function installPreCheckoutQueryMethods(
     api: RawApi,
@@ -33,6 +31,5 @@ export function installPreCheckoutQueryMethods(
                 signal,
             ),
     };
-
     Object.assign(preCheckoutQuery, methods);
 }

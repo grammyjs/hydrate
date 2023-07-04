@@ -26,9 +26,7 @@ export interface InlineQueryXFragment {
     ): Ret<"answerInlineQuery">;
 }
 
-export type InlineQueryX =
-    & InlineQueryXFragment
-    & InlineQuery;
+export type InlineQueryX = InlineQueryXFragment & InlineQuery;
 
 export function installInlineQueryMethods(
     api: RawApi,
@@ -41,6 +39,5 @@ export function installInlineQueryMethods(
                 signal,
             ),
     };
-
     Object.assign(inlineQuery, methods);
 }

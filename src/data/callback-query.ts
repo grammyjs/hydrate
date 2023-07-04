@@ -49,6 +49,5 @@ export function installCallbackQueryMethods(
                 signal,
             ),
     };
-
     Object.assign(callbackQuery, methods);
 }

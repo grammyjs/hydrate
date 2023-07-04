@@ -64,9 +64,7 @@ export interface MessageXFragment extends InlineMessageXFragment {
     getCustomEmojiStickers(signal?: AbortSignal): Ret<"getCustomEmojiStickers">;
 }
 
-export type MessageX =
-    & MessageXFragment
-    & Message;
+export type MessageX = MessageXFragment & Message;
 
 export function installMessageMethods(api: RawApi, message: Message) {
     const methods: MessageXFragment = {
@@ -170,6 +168,5 @@ export function installMessageMethods(api: RawApi, message: Message) {
             );
         },
     };
-
     Object.assign(message, methods);
 }

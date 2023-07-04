@@ -18,9 +18,7 @@ export interface ShippingQueryXFragment {
     ): Ret<"answerShippingQuery">;
 }
 
-export type ShippingQueryX =
-    & ShippingQueryXFragment
-    & ShippingQuery;
+export type ShippingQueryX = ShippingQueryXFragment & ShippingQuery;
 
 export function installShippingQueryMethods(
     api: RawApi,
@@ -33,6 +31,5 @@ export function installShippingQueryMethods(
                 signal,
             ),
     };
-
     Object.assign(shippingQuery, methods);
 }
