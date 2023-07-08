@@ -1,5 +1,10 @@
-import { ChatMember, ChatPermissions, RawApi, User } from "../deps.deno.ts";
-import { Other, Ret } from "../plugin.ts";
+import type {
+    ChatMember,
+    ChatPermissions,
+    RawApi,
+    User,
+} from "../deps.deno.ts";
+import type { Other, Ret } from "../plugin.ts";
 
 export interface UserXFragment {
     getProfilePhotos(

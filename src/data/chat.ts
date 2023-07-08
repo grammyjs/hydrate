@@ -1,11 +1,11 @@
-import {
+import type {
     Chat,
     ChatFromGetChat,
     ChatPermissions,
     InputFile,
     RawApi,
 } from "../deps.deno.ts";
-import { Other, Ret } from "../plugin.ts";
+import type { Other, Ret } from "../plugin.ts";
 
 export interface ChatXFragment {
     setPermissions(
