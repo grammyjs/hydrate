@@ -1,4 +1,3 @@
-// export * from "@grammyjs/types";
 export {
     Api,
     ApiCallFn,
