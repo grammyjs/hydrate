@@ -1,4 +1,3 @@
-// deno-lint-ignore-file camelcase
 import { type CallbackQueryX } from "./data/callback-query.ts";
 import { type ChatJoinRequestX } from "./data/chat-join-request.ts";
 import { type ChatX, installChatMethods } from "./data/chat.ts";
@@ -12,8 +11,8 @@ import { type ChatMemberX, installUserMethods } from "./data/user.ts";
 import {
     type Api,
     type ApiCallFn,
-    Chat,
-    ChatMember,
+    type Chat,
+    type ChatMember,
     type Context,
     GrammyError,
     type Message,
