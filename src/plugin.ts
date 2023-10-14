@@ -1,20 +1,22 @@
-// deno-lint-ignore-file camelcase
 import { type CallbackQueryX } from "./data/callback-query.ts";
 import { type ChatJoinRequestX } from "./data/chat-join-request.ts";
+import { type ChatX, installChatMethods } from "./data/chat.ts";
 import { installInlineMessageMethods } from "./data/inline-message.ts";
 import { type InlineQueryX } from "./data/inline-query.ts";
 import { installMessageMethods, type MessageX } from "./data/message.ts";
 import { type PreCheckoutQueryX } from "./data/pre-checkout-query.ts";
 import { type ShippingQueryX } from "./data/shipping-query.ts";
-import { installUpdateMethods, type UpdateX } from "./data/update.ts";
+import { installUpdateMethods, UpdateX } from "./data/update.ts";
+import { type ChatMemberX, installUserMethods } from "./data/user.ts";
 import {
     type Api,
     type ApiCallFn,
+    type Chat,
+    type ChatMember,
     type Context,
     GrammyError,
-    type InputFile,
-    type InputFileProxy,
     type Message,
+    type Opts,
     type RawApi,
     type SentWebAppMessage,
     type Transformer,
@@ -62,6 +64,8 @@ interface X {
     sendInvoice: MessageX;
     sendGame: MessageX;
     setGameScore: MessageX | true;
+    getChat: ChatX;
+    getChatMember: ChatMemberX;
 }
 
 /**
@@ -100,6 +104,14 @@ export function hydrateApi<R extends RawApi = RawApi>(): Transformer<R> {
                 installMessageMethods(toApi(prev), res.result);
             } else if (isInlineMessage(res.result)) {
                 installInlineMessageMethods(toApi(prev), res.result);
+            } else if (isChatMember(res.result) && hasChatId(payload)) {
+                installUserMethods(
+                    toApi(prev),
+                    res.result.user,
+                    payload.chat_id,
+                );
+            } else if (isChat(res.result)) {
+                installChatMethods(toApi(prev), res.result);
             }
             // TODO: hydrate other method call results
         }
@@ -125,35 +137,41 @@ function isInlineMessage(obj: unknown): obj is SentWebAppMessage {
     );
 }
 
+function isChatMember(obj: unknown): obj is ChatMember {
+    return (
+        typeof obj === "object" &&
+        obj !== null &&
+        "status" in obj &&
+        "user" in obj
+    );
+}
+
+function isChat(obj: unknown): obj is Chat {
+    return (
+        typeof obj === "object" &&
+        obj !== null &&
+        "id" in obj &&
+        "type" in obj &&
+        typeof obj.type === "string" &&
+        ["private", "group", "supergroup", "channel"].includes(obj.type)
+    );
+}
+
+function hasChatId(obj: unknown): obj is { chat_id: number } {
+    return (
+        typeof obj === "object" &&
+        obj !== null &&
+        "chat_id" in obj &&
+        typeof obj.chat_id === "number"
+    );
+}
+
 export type Other<M extends keyof RawApi, K extends string = never> = Omit<
     Opts<M>,
     K
 >;
-export type Opts<M extends keyof RawApi> = InputFileProxy<InputFile>["Opts"][M];
+
 export type Ret<M extends keyof RawApi> = ReturnType<RawApi[M]>;
-
-// TODO: add support for the following methods of these objects
-
-// === USERS
-
-// - get user profile photos
-// - ban
-// - unban
-// - restrict
-// - promote
-// - set custom title
-// - get (private)
-// - get in chat (groups)
-
-// === CHATS
-
-// - set permissions
-// - get
-// - get admins
-// - get private chat, get group chat, etc with narrowed return types
-// - etc
-// - all send message methods?
-// - just everything that has a chat_id?
 
 function toApi(connector: ApiCallFn) {
     return new Proxy({} as RawApi, {
@@ -220,6 +238,9 @@ interface ContextX<C extends Context> {
     replyWithSticker: Extend<C["replyWithSticker"], X["sendSticker"]>;
     replyWithInvoice: Extend<C["replyWithInvoice"], X["sendInvoice"]>;
     replyWithGame: Extend<C["replyWithGame"], X["sendGame"]>;
+    getChatMember: Extend<C["getChatMember"], X["getChatMember"]>;
+    getChat: Extend<C["getChat"], X["getChat"]>;
+    getAuthor: Extend<C["getAuthor"], X["getChatMember"]>;
 
     update: UpdateX;
 

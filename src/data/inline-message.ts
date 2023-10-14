@@ -1,7 +1,6 @@
 import {
     type InlineKeyboardMarkup,
-    type InputFile,
-    type InputFileProxy,
+    type InputMedia,
     type RawApi,
     type SentWebAppMessage,
 } from "../deps.deno.ts";
@@ -98,7 +97,7 @@ export interface InlineMessageXFragment {
      * **Official reference:** https://core.telegram.org/bots/api#editmessagemedia
      */
     editMedia(
-        media: InputFileProxy<InputFile>["InputMedia"],
+        media: InputMedia,
         other?: Other<"editMessageMedia", "inline_message_id" | "media">,
         signal?: AbortSignal,
     ): Ret<"editMessageMedia">;
