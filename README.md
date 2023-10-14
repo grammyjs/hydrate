@@ -14,12 +14,12 @@ The purpose of this plugin is best illustrated by an example.
 
 ```ts
 bot.on(":photo", async (ctx) => {
-    const statusMessage = await ctx.reply("Processing your image, please wait");
-    await doWork(); // some long image processing
-    await ctx.api.deleteMessage(statusMessage.message_id);
+  const statusMessage = await ctx.reply("Processing your image, please wait");
+  await doWork(); // some long image processing
+  await ctx.api.deleteMessage(statusMessage.message_id);
 });
 bot.on("callback_query", async (ctx) => {
-    await ctx.answerCallbackQuery();
+  await ctx.answerCallbackQuery();
 });
 ```
 
@@ -27,11 +27,11 @@ bot.on("callback_query", async (ctx) => {
 
 ```ts
 bot.on(":photo", async (ctx) => {
-    const statusMessage = await ctx.reply("Processing your image, please wait");
-    await doWork(); // some long image processing
-    await statusMessage.delete(); // so easy!
+  const statusMessage = await ctx.reply("Processing your image, please wait");
+  await doWork(); // some long image processing
+  await statusMessage.delete(); // so easy!
 });
 bot.on("callback_query", async (ctx) => {
-    await ctx.callbackQuery.answer(); // this works now, too
+  await ctx.callbackQuery.answer(); // this works now, too
 });
 ```

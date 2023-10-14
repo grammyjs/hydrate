@@ -1,16 +1,16 @@
 {
-    "lock": false,
-    "tasks": {
-        "check": "deno cache --check=all src/mod.ts",
-        "backport": "deno run --no-prompt --allow-read=. --allow-write=. https://deno.land/x/deno2node@v1.7.1/src/cli.ts tsconfig.json",
-        "dev": "deno fmt && deno lint && deno task check"
-    },
-    "fmt": {
-        "indentWidth": 4,
-        "proseWrap": "preserve",
-        "exclude": ["./node_modules/", "./out/", "./package-lock.json"]
-    },
-    "lint": {
-        "exclude": ["./node_modules/", "./out/", "./package-lock.json"]
-    }
+  "lock": false,
+  "tasks": {
+    "check": "deno cache --check=all src/mod.ts",
+    "backport": "deno run --no-prompt --allow-read=. --allow-write=. https://deno.land/x/deno2node@v1.7.1/src/cli.ts tsconfig.json",
+    "dev": "deno fmt && deno lint && deno task check"
+  },
+  "fmt": {
+    "proseWrap": "preserve",
+    "exclude": ["./node_modules/", "./out/", "./package-lock.json"],
+    "lineWidth": 120
+  },
+  "lint": {
+    "exclude": ["./node_modules/", "./out/", "./package-lock.json"]
+  }
 }
