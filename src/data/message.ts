@@ -1,4 +1,10 @@
-import { type Message, type MessageEntity, type RawApi } from "../deps.deno.ts";
+import {
+    type Message,
+    type MessageEntity,
+    type RawApi,
+    type ReactionType,
+    type ReactionTypeEmoji,
+} from "../deps.deno.ts";
 import { type Other as O, type Ret } from "../plugin.ts";
 import { type InlineMessageXFragment } from "./inline-message.ts";
 type Other<M extends keyof RawApi, K extends string = never> = O<
@@ -53,6 +59,24 @@ export interface MessageXFragment extends InlineMessageXFragment {
      * **Official reference:** https://core.telegram.org/bots/api#deletemessage
      */
     delete(signal?: AbortSignal): Ret<"deleteMessage">;
+
+    /**
+     * Message-aware alias for `api.setMessageReaction`. Use this method to change the chosen reactions on a message. Service messages can't be reacted to. Automatically forwarded messages from a channel to its discussion group have the same available reactions as messages in the channel. In albums, bots must react to the first message. Returns True on success.
+     *
+     * @param reaction New list of reaction types to set on the message
+     * @param other Optional remaining parameters, confer the official reference below
+     * @param signal Optional `AbortSignal` to cancel the request
+     *
+     * **Official reference:** https://core.telegram.org/bots/api#setmessagereaction
+     */
+    react(
+        reaction:
+            | ReactionTypeEmoji["emoji"]
+            | ReactionType
+            | Array<ReactionTypeEmoji["emoji"] | ReactionType>,
+        other?: Other<"setMessageReaction", "reaction">,
+        signal?: AbortSignal,
+    ): Ret<"setMessageReaction">;
 
     /**
      * Message-aware alias for `api.getCustomEmojiStickers`. Use this method to get information about emoji stickers by their identifiers. Returns an Array of Sticker on success.
@@ -155,6 +179,20 @@ export function installMessageMethods(api: RawApi, message: Message) {
                 },
                 signal,
             ),
+        react: (reaction, other, signal) =>
+            api.setMessageReaction({
+                chat_id: message.chat.id,
+                message_id: message.message_id,
+                reaction: typeof reaction === "string"
+                    ? [{ type: "emoji", emoji: reaction }]
+                    : (Array.isArray(reaction) ? reaction : [reaction])
+                        .map((emoji) =>
+                            typeof emoji === "string"
+                                ? { type: "emoji", emoji }
+                                : emoji
+                        ),
+                ...other,
+            }, signal),
         getCustomEmojiStickers: async (signal) => {
             const entities = message.entities ?? message.caption_entities;
             if (entities === undefined || entities.length === 0) return [];
