@@ -74,7 +74,7 @@ export interface MessageXFragment extends InlineMessageXFragment {
             | ReactionTypeEmoji["emoji"]
             | ReactionType
             | Array<ReactionTypeEmoji["emoji"] | ReactionType>,
-        other?: Other<"copyMessage", "from_chat_id">,
+        other?: Other<"setMessageReaction", "chat_id" | "message_id">,
         signal?: AbortSignal,
     ): Ret<"setMessageReaction">;
 
