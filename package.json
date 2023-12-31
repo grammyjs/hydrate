@@ -36,9 +36,6 @@
     ],
     "main": "out/mod.js",
     "type": "commonjs",
-    "exports": {
-        ".": "./out/mod.js"
-    },
     "keywords": [
         "bot",
         "middleware",
