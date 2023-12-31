@@ -29,7 +29,7 @@
     },
     "devDependencies": {
         "@types/node": "^12.20.55",
-        "deno2node": "^1.7.1"
+        "deno2node": "^1.11.0"
     },
     "files": [
         "out/"
