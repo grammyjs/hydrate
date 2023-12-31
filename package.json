@@ -17,7 +17,7 @@
     },
     "scripts": {
         "prepare": "npm run build",
-        "build": "deno2node tsconfig.json",
+        "build": "deno2node",
         "format": "deno fmt",
         "lint": "deno lint"
     },
