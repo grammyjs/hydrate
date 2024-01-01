@@ -7,4 +7,4 @@ export {
     RawApi,
     Transformer,
 } from "grammy";
-export * from "grammy/types";
+export type * from "grammy/types";
