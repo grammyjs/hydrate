@@ -123,6 +123,7 @@ export function installMessageMethods(api: RawApi, message: Message) {
         editReplyMarkup: (reply_markup, signal) =>
             api.editMessageReplyMarkup(
                 {
+                    business_connection_id: message.business_connection_id,
                     chat_id: message.chat.id,
                     message_id: message.message_id,
                     reply_markup,
@@ -132,6 +133,7 @@ export function installMessageMethods(api: RawApi, message: Message) {
         editText: (text, other, signal) =>
             api.editMessageText(
                 {
+                    business_connection_id: message.business_connection_id,
                     chat_id: message.chat.id,
                     message_id: message.message_id,
                     text,
@@ -142,6 +144,7 @@ export function installMessageMethods(api: RawApi, message: Message) {
         editLiveLocation: (latitude, longitude, other, signal) =>
             api.editMessageLiveLocation(
                 {
+                    business_connection_id: message.business_connection_id,
                     chat_id: message.chat.id,
                     message_id: message.message_id,
                     latitude,
@@ -153,6 +156,7 @@ export function installMessageMethods(api: RawApi, message: Message) {
         stopLiveLocation: (other, signal) =>
             api.stopMessageLiveLocation(
                 {
+                    business_connection_id: message.business_connection_id,
                     chat_id: message.chat.id,
                     message_id: message.message_id,
                     ...other,
@@ -162,6 +166,7 @@ export function installMessageMethods(api: RawApi, message: Message) {
         editCaption: (caption, other, signal) =>
             api.editMessageCaption(
                 {
+                    business_connection_id: message.business_connection_id,
                     chat_id: message.chat.id,
                     message_id: message.message_id,
                     caption,
@@ -172,6 +177,7 @@ export function installMessageMethods(api: RawApi, message: Message) {
         editMedia: (media, other, signal) =>
             api.editMessageMedia(
                 {
+                    business_connection_id: message.business_connection_id,
                     chat_id: message.chat.id,
                     message_id: message.message_id,
                     media,
