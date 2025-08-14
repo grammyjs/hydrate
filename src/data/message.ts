@@ -78,7 +78,8 @@ export interface MessageXFragment extends InlineMessageXFragment {
      * - Bots can delete incoming messages in private chats.
      * - Bots granted can_post_messages permissions can delete outgoing messages in channels.
      * - If the bot is an administrator of a group, it can delete any message there.
-     * - If the bot has can_delete_messages permission in a supergroup or a channel, it can delete any message there.
+     * - If the bot has can_delete_messages administrator right in a supergroup or a channel, it can delete any message there.
+     * - If the bot has can_manage_direct_messages administrator right in a channel, it can delete any message in the corresponding direct messages chat.
      * Returns True on success.
      *
      * @param signal Optional `AbortSignal` to cancel the request
@@ -113,6 +114,32 @@ export interface MessageXFragment extends InlineMessageXFragment {
      * **Official reference:** https://core.telegram.org/bots/api#getcustomemojistickers
      */
     getCustomEmojiStickers(signal?: AbortSignal): Ret<"getCustomEmojiStickers">;
+
+    /**
+     * Message-aware alias for `api.approveSuggestedPost`. Use this method to approve a suggested post in a direct messages chat. The bot must have the 'can_post_messages' administrator right in the corresponding channel chat.  Returns True on success.
+     *
+     * @param other Optional remaining parameters, confer the official reference below
+     * @param signal Optional `AbortSignal` to cancel the request
+     *
+     * **Official reference:** https://core.telegram.org/bots/api#approvesuggestedpost
+     */
+    approveSuggestedPost(
+        other?: Other<"approveSuggestedPost", "chat_id" | "message_id">,
+        signal?: AbortSignal,
+    ): Ret<"approveSuggestedPost">;
+
+    /**
+     * Context-aware alias for `api.declineSuggestedPost`. Use this method to decline a suggested post in a direct messages chat. The bot must have the 'can_manage_direct_messages' administrator right in the corresponding channel chat. Returns True on success.
+     *
+     * @param other Optional remaining parameters, confer the official reference below
+     * @param signal Optional `AbortSignal` to cancel the request
+     *
+     * **Official reference:** https://core.telegram.org/bots/api#declinesuggestedpost
+     */
+    declineSuggestedPost(
+        other?: Other<"declineSuggestedPost", "chat_id" | "message_id">,
+        signal?: AbortSignal,
+    ): Ret<"approveSuggestedPost">;
 }
 
 export type MessageX = MessageXFragment & Message;
@@ -252,6 +279,18 @@ export function installMessageMethods(api: RawApi, message: Message) {
                 signal,
             );
         },
+        approveSuggestedPost: (other, signal) =>
+            api.approveSuggestedPost({
+                chat_id: message.chat.id,
+                message_id: message.message_id,
+                ...other,
+            }, signal),
+        declineSuggestedPost: (other, signal) =>
+            api.declineSuggestedPost({
+                chat_id: message.chat.id,
+                message_id: message.message_id,
+                ...other,
+            }, signal),
     };
     Object.assign(message, methods);
 }
