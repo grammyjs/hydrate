@@ -44,6 +44,33 @@ export interface MessageXFragment extends InlineMessageXFragment {
     ): Ret<"copyMessage">;
 
     /**
+     * Message-aware alias for `api.pinChatMessage`. Use this method to add a message to the list of pinned messages in a chat. In private chats and channel direct messages chats, all non-service messages can be pinned. Conversely, the bot must be an administrator with the 'can_pin_messages' right or the 'can_edit_messages' right to pin messages in groups and channels respectively. Returns True on success.
+     *
+     * @param other Optional remaining parameters, confer the official reference below
+     * @param signal Optional `AbortSignal` to cancel the request
+     *
+     * **Official reference:** https://core.telegram.org/bots/api#pinchatmessage
+     */
+    pin(
+        other?: Other<"pinChatMessage", "chat_id" | "message_id">,
+        signal?: AbortSignal,
+    ): Ret<"pinChatMessage">;
+
+    /**
+     * Message-aware alias for `api.unpinChatMessage`. Use this method to remove a message from the list of pinned messages in a chat. In private chats and channel direct messages chats, all messages can be unpinned. Conversely, the bot must be an administrator with the 'can_pin_messages' right or the 'can_edit_messages' right to unpin messages in groups and channels respectively. Returns True on success.
+     *
+     * @param message_id Identifier of a message to unpin. If not specified, the most recent pinned message (by sending date) will be unpinned.
+     * @param other Optional remaining parameters, confer the official reference below
+     * @param signal Optional `AbortSignal` to cancel the request
+     *
+     * **Official reference:** https://core.telegram.org/bots/api#unpinchatmessage
+     */
+    unpin(
+        other?: Other<"unpinChatMessage", "chat_id" | "message_id">,
+        signal?: AbortSignal,
+    ): Ret<"unpinChatMessage">;
+
+    /**
      * Message-aware alias for `api.deleteMessage`. Use this method to delete a message, including service messages, with the following limitations:
      * - A message can only be deleted if it was sent less than 48 hours ago.
      * - A dice message in a private chat can only be deleted if it was sent more than 24 hours ago.
@@ -112,6 +139,20 @@ export function installMessageMethods(api: RawApi, message: Message) {
                 },
                 signal,
             ),
+        pin: (other, signal) =>
+            api.pinChatMessage({
+                business_connection_id: message.business_connection_id,
+                chat_id: message.chat.id,
+                message_id: message.message_id,
+                ...other,
+            }, signal),
+        unpin: (other, signal) =>
+            api.unpinChatMessage({
+                business_connection_id: message.business_connection_id,
+                chat_id: message.chat.id,
+                message_id: message.message_id,
+                ...other,
+            }, signal),
         delete: (signal) =>
             api.deleteMessage(
                 {
