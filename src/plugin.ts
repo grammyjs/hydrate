@@ -20,7 +20,6 @@ import {
     type RawApi,
     type SentWebAppMessage,
     type Transformer,
-    type Update,
 } from "./deps.deno.ts";
 
 /**
@@ -244,15 +243,15 @@ interface ContextX<C extends Context> {
 
     update: UpdateX;
 
-    message: MessageX & C["message"];
-    editedMessage: MessageX & C["editedMessage"];
-    channelPost: MessageX & C["channelPost"];
-    editedChannelPost: MessageX & C["editedChannelPost"];
-    inlineQuery: InlineQueryX & C["inlineQuery"];
-    callbackQuery: CallbackQueryX & C["callbackQuery"];
-    shippingQuery: ShippingQueryX & C["shippingQuery"];
-    preCheckoutQuery: PreCheckoutQueryX & C["preCheckoutQuery"];
-    chatJoinRequest: ChatJoinRequestX & C["chatJoinRequest"];
+    message: (MessageX | undefined) & C["message"];
+    editedMessage: (MessageX | undefined) & C["editedMessage"];
+    channelPost: (MessageX | undefined) & C["channelPost"];
+    editedChannelPost: (MessageX | undefined) & C["editedChannelPost"];
+    inlineQuery: (InlineQueryX | undefined) & C["inlineQuery"];
+    callbackQuery: (CallbackQueryX | undefined) & C["callbackQuery"];
+    shippingQuery: (ShippingQueryX | undefined) & C["shippingQuery"];
+    preCheckoutQuery: (PreCheckoutQueryX | undefined) & C["preCheckoutQuery"];
+    chatJoinRequest: (ChatJoinRequestX | undefined) & C["chatJoinRequest"];
 
     msg: MessageX & C["msg"];
 }
