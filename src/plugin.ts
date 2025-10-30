@@ -253,7 +253,7 @@ interface ContextX<C extends Context> {
     preCheckoutQuery: (PreCheckoutQueryX | undefined) & C["preCheckoutQuery"];
     chatJoinRequest: (ChatJoinRequestX | undefined) & C["chatJoinRequest"];
 
-    msg: MessageX & C["msg"];
+    msg: (MessageX | undefined) & C["msg"];
 }
 
 type ApiX<A extends Api> = AddX<A> & {
