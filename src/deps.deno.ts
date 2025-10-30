@@ -2,6 +2,7 @@ export {
     Api,
     type ApiCallFn,
     Context,
+    type Filter,
     GrammyError,
     InputFile,
     type RawApi,
