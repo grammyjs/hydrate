@@ -1,9 +1,9 @@
 import { Context } from "../src/deps.deno.ts";
-import type { Filter } from "../src/deps.deno.ts";
 import { type HydrateFlavor } from "../src/plugin.ts";
 import {
     assertType,
     describe,
+    type Filter,
     type Has,
     type IsExact,
     it,
