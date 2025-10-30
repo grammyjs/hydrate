@@ -244,19 +244,17 @@ interface ContextX<C extends Context> {
 
     update: UpdateX;
 
-    message: (MessageX & Update.NonChannel) | undefined;
-    editedMessage: (MessageX & Update.Edited & Update.NonChannel) | undefined;
-    channelPost: (MessageX & Update.Channel) | undefined;
-    editedChannelPost:
-        | (MessageX & Update.Edited & Update.Channel)
-        | undefined;
-    inlineQuery: InlineQueryX | undefined;
-    callbackQuery: CallbackQueryX | undefined;
-    shippingQuery: ShippingQueryX | undefined;
-    preCheckoutQuery: PreCheckoutQueryX | undefined;
-    chatJoinRequest: ChatJoinRequestX | undefined;
+    message: MessageX & C["message"];
+    editedMessage: MessageX & C["editedMessage"];
+    channelPost: MessageX & C["channelPost"];
+    editedChannelPost: MessageX & C["editedChannelPost"];
+    inlineQuery: InlineQueryX & C["inlineQuery"];
+    callbackQuery: CallbackQueryX & C["callbackQuery"];
+    shippingQuery: ShippingQueryX & C["shippingQuery"];
+    preCheckoutQuery: PreCheckoutQueryX & C["preCheckoutQuery"];
+    chatJoinRequest: ChatJoinRequestX & C["chatJoinRequest"];
 
-    msg: MessageX | undefined;
+    msg: MessageX & C["msg"];
 }
 
 type ApiX<A extends Api> = AddX<A> & {
