@@ -20,7 +20,6 @@ import {
     type RawApi,
     type SentWebAppMessage,
     type Transformer,
-    type Update,
 } from "./deps.deno.ts";
 
 /**
@@ -244,19 +243,17 @@ interface ContextX<C extends Context> {
 
     update: UpdateX;
 
-    message: (MessageX & Update.NonChannel) | undefined;
-    editedMessage: (MessageX & Update.Edited & Update.NonChannel) | undefined;
-    channelPost: (MessageX & Update.Channel) | undefined;
-    editedChannelPost:
-        | (MessageX & Update.Edited & Update.Channel)
-        | undefined;
-    inlineQuery: InlineQueryX | undefined;
-    callbackQuery: CallbackQueryX | undefined;
-    shippingQuery: ShippingQueryX | undefined;
-    preCheckoutQuery: PreCheckoutQueryX | undefined;
-    chatJoinRequest: ChatJoinRequestX | undefined;
+    message: (MessageX | undefined) & C["message"];
+    editedMessage: (MessageX | undefined) & C["editedMessage"];
+    channelPost: (MessageX | undefined) & C["channelPost"];
+    editedChannelPost: (MessageX | undefined) & C["editedChannelPost"];
+    inlineQuery: (InlineQueryX | undefined) & C["inlineQuery"];
+    callbackQuery: (CallbackQueryX | undefined) & C["callbackQuery"];
+    shippingQuery: (ShippingQueryX | undefined) & C["shippingQuery"];
+    preCheckoutQuery: (PreCheckoutQueryX | undefined) & C["preCheckoutQuery"];
+    chatJoinRequest: (ChatJoinRequestX | undefined) & C["chatJoinRequest"];
 
-    msg: MessageX | undefined;
+    msg: (MessageX | undefined) & C["msg"];
 }
 
 type ApiX<A extends Api> = AddX<A> & {
